@@ -9,6 +9,8 @@ authors = [
 requires-python = ">=3.14"
 dependencies = [
     "anthropic>=2.3.0",
+    "deepgram-sdk>=7.16.0",
+    "google-genai>=2.34.0",
     "openai>=3.42.1",
     "python-dotenv>=1.2.4",
 ]
