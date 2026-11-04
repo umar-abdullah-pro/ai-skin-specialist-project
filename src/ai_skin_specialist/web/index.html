@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#f0fcf5">
+    <title>Derma AI · Skin consultation</title>
+    <link rel="icon" href="data:,">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/assets/styles.css">
+    <script src="/assets/app.js" defer></script>
+  </head>
+  <body>
+    <aside class="sidebar">
+      <a class="brand" href="#" aria-label="Derma AI home" data-view="consultation">
+        <span class="brand-mark material-symbols-outlined">spa</span>
+        <span><strong>Derma AI</strong><small>Clinical AI Studio</small></span>
+      </a>
+      <nav class="navigation" aria-label="Main navigation">
+        <button class="nav-link active" type="button" data-view="consultation"><span class="material-symbols-outlined">add_notes</span>New consultation</button>
+        <button class="nav-link" type="button" data-view="history"><span class="material-symbols-outlined">history</span>Consultation history</button>
+        <button class="nav-link" type="button" data-view="guide"><span class="material-symbols-outlined">menu_book</span>Skin health guide</button>
+        <button class="nav-link" type="button" data-view="settings"><span class="material-symbols-outlined">settings</span>Settings</button>
+      </nav>
+      <div class="sidebar-footer">
+        <span class="avatar material-symbols-outlined">person</span>
+        <span class="profile"><strong>Private session</strong><small>No saved patient profile</small></span>
+        <span class="material-symbols-outlined lock-icon">lock</span>
+      </div>
+    </aside>
+
+    <div class="page">
+      <header class="topbar">
+        <div class="breadcrumb"><span>Workspace</span><span class="material-symbols-outlined">chevron_right</span><strong id="page-title">New consultation</strong></div>
+        <div class="topbar-status"><span class="status-dot"></span><span>AI assistant</span><span class="divider"></span><span class="material-symbols-outlined">verified_user</span><span>Private session</span></div>
+        <button class="mobile-menu" type="button" aria-label="Open navigation"><span class="material-symbols-outlined">menu</span></button>
+      </header>
+
+      <main>
+        <section class="view active" id="view-consultation">
+          <div class="page-heading">
+            <div><span class="eyebrow">PERSONALIZED SKIN HEALTH</span><h1>Let’s understand your skin.</h1><p>Share what you’re experiencing. Add a photo or video if it helps explain your concern.</p></div>
+            <span class="heading-icon material-symbols-outlined">dermatology</span>
+          </div>
+
+          <div class="consultation-grid">
+            <section class="form-card" aria-labelledby="concern-title">
+              <div class="card-heading"><div><span class="step">01</span><div><h2 id="concern-title">Tell us about it</h2><p>Start with a description, voice note, or visual.</p></div></div></div>
+
+              <label class="field-label" for="concern">What have you noticed?</label>
+              <textarea id="concern" rows="4" placeholder="For example: When did it start? Does it itch or hurt? Is it changing?"></textarea>
+              <div class="suggestions" aria-label="Suggested concerns">
+                <button type="button" class="prompt-chip">Redness or irritation</button>
+                <button type="button" class="prompt-chip">Itchy, dry skin</button>
+                <button type="button" class="prompt-chip">A new spot or mole</button>
+                <button type="button" class="prompt-chip">Recurring breakouts</button>
+              </div>
+
+              <div class="field-row"><span class="field-label">Voice note <span class="optional">optional</span></span><span id="recording-status" class="recording-status">Ready to record</span></div>
+              <div class="voice-card">
+                <div class="voice-controls">
+                  <button id="record-button" class="record-button" type="button" aria-label="Start recording"><span class="material-symbols-outlined">mic</span></button>
+                  <button id="remove-audio-button" class="remove-audio-button" type="button" aria-label="Remove audio note" title="Remove audio note" disabled><span class="material-symbols-outlined">close</span></button>
+                </div>
+                <div class="voice-copy"><strong>Speak naturally</strong><span>Allow microphone access to record up to 60 seconds.</span></div>
+                <span id="recording-time" class="recording-time">00:00</span>
+              </div>
+              <label class="upload-audio" for="audio-file"><span class="material-symbols-outlined">attach_file</span>Or choose an audio recording <span class="optional">(MP3, M4A, WAV, WebM · 10 MB max)</span></label>
+              <input class="visually-hidden" id="audio-file" type="file" accept="audio/*">
+              <div id="audio-name" class="selected-file hidden"></div>
+
+              <div class="upload-grid">
+                <div class="upload-block">
+                  <div class="field-row"><label class="field-label" for="image-file"><span class="material-symbols-outlined">add_a_photo</span>Skin photo <span class="optional">optional</span></label></div>
+                  <label class="dropzone" for="image-file"><span class="drop-icon material-symbols-outlined">add_photo_alternate</span><strong>Add a clear photo</strong><span>Good natural light works best</span><small>JPG, PNG, WebP · 25 MB max</small><input id="image-file" class="visually-hidden" type="file" accept="image/jpeg,image/png,image/webp"></label>
+                  <div id="image-preview" class="preview hidden"></div>
+                </div>
+                <div class="upload-block">
+                  <div class="field-row"><label class="field-label" for="video-file"><span class="material-symbols-outlined">videocam</span>Skin video <span class="optional">optional</span></label></div>
+                  <label class="dropzone" for="video-file"><span class="drop-icon material-symbols-outlined">video_file</span><strong>Show the area from different angles</strong><span>A short clip can add helpful context</span><small>MP4, MOV, WebM · 100 MB max</small><input id="video-file" class="visually-hidden" type="file" accept="video/mp4,video/quicktime,video/webm,video/x-m4v"></label>
+                  <div id="video-preview" class="preview hidden"></div>
+                </div>
+              </div>
+
+              <div id="error-message" class="alert hidden" role="alert"></div>
+              <button id="analyze-button" class="primary-button" type="button"><span class="material-symbols-outlined">auto_awesome</span>Get guidance<span class="material-symbols-outlined trailing">arrow_forward</span></button>
+              <p class="privacy-note"><span class="material-symbols-outlined">info</span>Your text and selected media are sent to the configured AI services for processing. This app does not save consultations.</p>
+            </section>
+
+            <aside class="assistant-card">
+              <div class="assistant-heading"><div class="assistant-avatar material-symbols-outlined">health_and_safety</div><div><h2>Your AI skin assistant</h2><p>Informational skin health guidance</p></div><span class="ready-pill"><span class="status-dot"></span>Ready</span></div>
+              <div id="assistant-welcome" class="assistant-content">
+                <div class="welcome-message"><span class="eyebrow">A GOOD PLACE TO START</span><p>Hi there. Describe what you’re experiencing, and I’ll help you think through sensible next steps.</p></div>
+                <h3>Common concerns</h3>
+                <div class="suggested-list">
+                  <button type="button" class="suggested-prompt">“I have redness on my skin”<span class="material-symbols-outlined">north_west</span></button>
+                  <button type="button" class="suggested-prompt">“My skin feels itchy and dry”<span class="material-symbols-outlined">north_west</span></button>
+                  <button type="button" class="suggested-prompt">“I noticed a new spot”<span class="material-symbols-outlined">north_west</span></button>
+                  <button type="button" class="suggested-prompt">“I have recurring breakouts”<span class="material-symbols-outlined">north_west</span></button>
+                </div>
+                <div class="safety-note"><span class="material-symbols-outlined">health_and_safety</span><span>This tool cannot diagnose conditions. A healthcare professional can assess your skin in person.</span></div>
+              </div>
+              <div id="assistant-loading" class="assistant-content loading-state hidden" aria-live="polite"><span class="loader"></span><h3>Preparing your guidance</h3><p>Reviewing the information you shared…</p></div>
+              <div id="assistant-results" class="assistant-content result-state hidden" aria-live="polite">
+                <div class="result-block"><span class="eyebrow">YOUR DESCRIPTION</span><p id="result-transcript"></p></div>
+                <div class="result-block response-block"><span class="eyebrow">AI ASSISTANT RESPONSE</span><p id="result-response"></p></div>
+                <div id="audio-player-wrap" class="audio-player hidden"><div class="field-row"><strong><span class="material-symbols-outlined">volume_up</span>Listen to your response</strong><select id="playback-speed" aria-label="Audio playback speed"><option value="1">1×</option><option value="1.25">1.25×</option><option value="1.5">1.5×</option></select></div><audio id="response-audio" controls></audio></div>
+                <p id="audio-unavailable" class="audio-unavailable hidden">Spoken playback is unavailable. Check the service configuration in Settings.</p>
+                <button id="new-consultation-button" class="secondary-button" type="button">Start a new consultation</button>
+              </div>
+            </aside>
+          </div>
+        </section>
+
+        <section class="view secondary-view" id="view-history"><span class="eyebrow">THIS SESSION</span><h1>Consultation history</h1><p>Your completed consultations are available here until you leave or refresh this page.</p><div id="history-list" class="history-list"></div></section>
+        <section class="view secondary-view" id="view-guide"><span class="eyebrow">SKIN HEALTH GUIDE</span><h1>Care for your skin</h1><p>General tips for everyday skin health. These do not replace advice from a clinician.</p><div class="guide-grid"><article class="info-card"><span class="material-symbols-outlined">water_drop</span><h2>Keep it gentle</h2><p>Use a mild cleanser and lukewarm water. Avoid scrubbing irritated skin.</p></article><article class="info-card"><span class="material-symbols-outlined">wb_sunny</span><h2>Protect from the sun</h2><p>Use broad-spectrum sunscreen and seek shade during peak sun hours.</p></article><article class="info-card"><span class="material-symbols-outlined">medical_services</span><h2>Know when to seek care</h2><p>Get medical advice for a rapidly changing spot, severe pain, spreading redness, or symptoms that concern you.</p></article></div></section>
+        <section class="view secondary-view" id="view-settings"><span class="eyebrow">APP STATUS</span><h1>Settings</h1><p>Service availability for this Derma AI instance.</p><div class="info-card status-card"><div><strong>Skin guidance service</strong><span id="analysis-status" class="service-state">Checking…</span></div><div><strong>Voice response</strong><span id="speech-status" class="service-state">Checking…</span></div><p>Service keys are configured on the server and are never shown in your browser.</p></div></section>
+      </main>
+      <footer><span>For educational and triage assistance only. Not a substitute for professional medical diagnosis.</span><span>Seek urgent care for severe or rapidly worsening symptoms.</span></footer>
+    </div>
+  </body>
+</html>

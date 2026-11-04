@@ -1,7 +1,7 @@
-import os
-import mimetypes
-import time
 import logging
+import mimetypes
+import os
+import time
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
@@ -15,7 +15,7 @@ def brain_of_the_doctor(patient_text, image_filepath=None, video_filepath=None):
     gemini_api_key = os.environ.get("GEMINI_API_KEY")
 
     if not gemini_api_key:
-        raise ValueError("GEMINI_API_KEY not found in .env file!")
+        raise ValueError("GEMINI_API_KEY is not configured.")
 
     # Initialize Gemini client
     client = genai.Client(api_key=gemini_api_key)
@@ -26,9 +26,6 @@ def brain_of_the_doctor(patient_text, image_filepath=None, video_filepath=None):
         "You are an AI skin health assistant. "
         "Provide clear, reassuring and medically cautious information. "
         "Limit your entire response to two or three sentences maximum. "
-        "If the patient has provided only an image and no video, "
-        "politely ask them to provide a video showing the skin problem "
-        "so that more visual details can be understood. "
         "Do not claim to provide a confirmed diagnosis. "
         "If the patient describes severe symptoms or an emergency, "
         "recommend appropriate medical attention. "
@@ -45,17 +42,20 @@ def brain_of_the_doctor(patient_text, image_filepath=None, video_filepath=None):
         video_file = client.files.upload(file=video_filepath)
 
         # Wait until video processing is complete
+        deadline = time.monotonic() + 120
         while not video_file.state or video_file.state.name != "ACTIVE":
             if video_file.state and video_file.state.name == "FAILED":
                 raise RuntimeError("Gemini could not process the video.")
+            if time.monotonic() >= deadline:
+                raise RuntimeError("Timed out while processing the uploaded video.")
 
             logging.info("Processing patient video...")
-            time.sleep(5)
+            time.sleep(2)
             video_file = client.files.get(name=video_file.name)
 
         contents.append(video_file)
 
-    elif image_filepath:
+    if image_filepath:
 
         # Read image
         with open(image_filepath, "rb") as file:
@@ -74,5 +74,7 @@ def brain_of_the_doctor(patient_text, image_filepath=None, video_filepath=None):
     response = client.models.generate_content(model=model, contents=contents)
 
     doctors_response_in_text = response.text
+    if not doctors_response_in_text:
+        raise RuntimeError("The AI assistant returned an empty response.")
 
     return doctors_response_in_text
